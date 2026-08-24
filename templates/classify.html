@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Classify — EmailPro{% endblock %}
+{% block content %}
+
+<span class="eyebrow">Step 02</span>
+<h1>Classify {{ batch.filename }}</h1>
+<p class="subtitle">{{ batch.emails|length }} unique email(s) found. Sort them into business and individual addresses before you send.</p>
+
+<div class="card">
+  <form method="POST">
+    <button type="submit" class="btn btn-primary">
+      {% if result %}Re-run classification{% else %}Run AI classification{% endif %}
+    </button>
+  </form>
+</div>
+
+{% if result %}
+<div class="classify-columns">
+  <div class="classify-col business">
+    <h3>Business — {{ result.business|length }}</h3>
+    <div class="email-scroll">
+      {% for email in result.business %}
+        <div class="email-chip">{{ email }}</div>
+      {% else %}
+        <div class="batch-meta">None found.</div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="classify-col individual">
+    <h3>Individual — {{ result.individual|length }}</h3>
+    <div class="email-scroll">
+      {% for email in result.individual %}
+        <div class="email-chip">{{ email }}</div>
+      {% else %}
+        <div class="batch-meta">None found.</div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<div style="margin-top:28px;">
+  <a href="{{ url_for('send') }}" class="btn btn-primary">Continue to Send →</a>
+</div>
+{% endif %}
+
+{% endblock %}

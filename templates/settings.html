@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Settings — EmailPro{% endblock %}
+{% block content %}
+
+<span class="eyebrow">Configuration</span>
+<h1>Settings</h1>
+<p class="subtitle">API keys and SMTP credentials are read from environment variables — see the README for exact names.</p>
+
+<div class="card">
+  <div class="settings-row">
+    <span class="settings-key">Gemini API key</span>
+    <span class="settings-val">{{ "Configured" if current.gemini_key_set else "Not set — falls back to rule-based classifier" }}</span>
+  </div>
+  <div class="settings-row">
+    <span class="settings-key">SMTP sender</span>
+    <span class="settings-val">{{ current.smtp_user }}</span>
+  </div>
+  <div class="settings-row">
+    <span class="settings-key">Sender name</span>
+    <span class="settings-val">{{ current.sender_name }}</span>
+  </div>
+</div>
+
+{% endblock %}

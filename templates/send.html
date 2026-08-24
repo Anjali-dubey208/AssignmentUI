@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Send — EmailPro{% endblock %}
+{% block content %}
+
+<span class="eyebrow">Step 03</span>
+<h1>Compose your campaign</h1>
+<p class="subtitle">Pick a classified list, target an audience, and send.</p>
+
+<div class="card">
+  {% if batches %}
+  <form method="POST" enctype="multipart/form-data">
+    <div class="field">
+      <label for="batch_id">Email list</label>
+      <select id="batch_id" name="batch_id" required>
+        {% for batch_id, batch in batches %}
+          <option value="{{ batch_id }}">{{ batch.filename }} ({{ batch.emails|length }} emails)</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Target audience</label>
+      <div class="radio-row">
+        <label class="radio-pill">
+          <input type="radio" name="audience" value="both" checked> Everyone
+        </label>
+        <label class="radio-pill">
+          <input type="radio" name="audience" value="business"> Business only
+        </label>
+        <label class="radio-pill">
+          <input type="radio" name="audience" value="individual"> Individual only
+        </label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="subject">Subject line</label>
+      <input type="text" id="subject" name="subject" placeholder="Your subject line" required>
+    </div>
+
+    <div class="field">
+      <label for="body">Message</label>
+      <textarea id="body" name="body" placeholder="Write your campaign message…" required></textarea>
+    </div>
+
+    <div class="field">
+      <label for="attachment">Attachment (optional)</label>
+      <input type="file" id="attachment" name="attachment">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Send campaign</button>
+  </form>
+  {% else %}
+    <div class="empty-state">
+      No classified lists yet. <a href="{{ url_for('upload') }}" style="color:var(--cobalt); font-weight:600;">Upload a CSV</a> and classify it first.
+    </div>
+  {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}EmailPro{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-name">EmailPro</span>
+    </div>
+
+    <nav class="steps">
+      <a href="{{ url_for('upload') }}" class="step {{ 'is-active' if request.endpoint == 'upload' }}">
+        <span class="step-num">01</span>
+        <span class="step-label">Upload</span>
+      </a>
+      <a href="{{ url_for('upload') }}" class="step {{ 'is-active' if request.endpoint == 'classify' }}">
+        <span class="step-num">02</span>
+        <span class="step-label">Classify</span>
+      </a>
+      <a href="{{ url_for('send') }}" class="step {{ 'is-active' if request.endpoint == 'send' }}">
+        <span class="step-num">03</span>
+        <span class="step-label">Send</span>
+      </a>
+      <a href="{{ url_for('report') }}" class="step {{ 'is-active' if request.endpoint == 'report' }}">
+        <span class="step-num">04</span>
+        <span class="step-label">Report</span>
+      </a>
+    </nav>
+
+    <a href="{{ url_for('settings') }}" class="settings-link {{ 'is-active' if request.endpoint == 'settings' }}">
+      Settings
+    </a>
+  </aside>
+
+  <main class="main">
+    <div class="stripe-rule" aria-hidden="true"></div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-stack">
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <div class="page">
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

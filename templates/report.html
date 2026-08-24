@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Report — EmailPro{% endblock %}
+{% block content %}
+
+<span class="eyebrow">Step 04</span>
+<h1>Delivery reports</h1>
+<p class="subtitle">Performance across every campaign you've sent.</p>
+
+<div class="stat-grid">
+  <div class="stat-card">
+    <span class="stat-value">{{ summary.total_sent }}</span>
+    <span class="stat-label">Total recipients</span>
+  </div>
+  <div class="stat-card delivered">
+    <span class="stat-value">{{ summary.total_delivered }}</span>
+    <span class="stat-label">Delivered</span>
+  </div>
+  <div class="stat-card failed">
+    <span class="stat-value">{{ summary.total_failed }}</span>
+    <span class="stat-label">Failed</span>
+  </div>
+  <div class="stat-card rate">
+    <span class="stat-value">{{ summary.delivery_rate }}%</span>
+    <span class="stat-label">Delivery rate</span>
+  </div>
+</div>
+
+<div class="card">
+  {% if summary.campaigns %}
+  <table>
+    <thead>
+      <tr>
+        <th>Subject</th>
+        <th>Audience</th>
+        <th>Sent</th>
+        <th>Delivered</th>
+        <th>Failed</th>
+        <th>Mode</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in summary.campaigns %}
+      <tr>
+        <td>{{ c.subject }}</td>
+        <td style="text-transform:capitalize;">{{ c.audience }}</td>
+        <td>{{ c.total }}</td>
+        <td>{{ c.delivered }}</td>
+        <td>{{ c.failed }}</td>
+        <td>
+          {% if c.simulated %}
+            <span class="tag tag-sim">Simulated</span>
+          {% else %}
+            <span class="tag tag-live">Live SMTP</span>
+          {% endif %}
+        </td>
+        <td class="batch-meta">{{ c.sent_at }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+    <div class="empty-state">No campaigns sent yet — reports will appear here once you send one.</div>
+  {% endif %}
+</div>
+
+{% endblock %}
